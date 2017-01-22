@@ -64,9 +64,17 @@ public:
 	inline void strokePath() {
 		nvgStroke(ctx);
 	}
+	inline void strokePath(const ofColor& c) {
+		setStrokeColor(c);
+		strokePath();
+	}
 	
 	inline void fillPath() {
 		nvgFill(ctx);
+	}
+	inline void fillPath(const ofColor& c) {
+		setFillColor(c);
+		fillPath();
 	}
 	
 	inline void rect(const ofRectangle& r) { rect(r.x, r.y, r.width, r.height); }
@@ -78,7 +86,11 @@ public:
 	inline void roundedRect(float x, float y, float w, float h, float r) {
 		nvgRoundedRect(ctx, x, y, w, h, r);
 	}
-	
+	inline void roundedRect(const ofRectangle &r, float ang_tl, float ang_tr, float ang_br, float ang_bl) { roundedRect(r.x, r.y, r.width, r.height, ang_tl, ang_tr, ang_br, ang_bl); }
+	inline void roundedRect(float x, float y, float w, float h, float r_tl, float r_tr, float r_br, float r_bl) {
+		nvgRoundedRect4(ctx, x, y, w, h, r_tl, r_tr, r_br, r_bl);
+	}
+
 	inline void ellipse(const ofVec2f& p, float rx, float ry) { ellipse(p.x, p.y, rx, ry); }
 	inline void ellipse(float cx, float cy, float rx, float ry) {
 		nvgEllipse(ctx, cx, cy, rx, ry);
@@ -134,6 +146,8 @@ public:
 	}
 	void strokeRoundedRect(float x, float y, float w, float h, float r, const ofColor& c, float width=1);
 	void fillRoundedRect(float x, float y, float w, float h, float r, const ofColor& c);
+	void strokeRoundedRect(float x, float y, float w, float h, float r_tl, float r_tr, float r_br, float r_bl, const ofColor& c, float width=1);
+	void fillRoundedRect(float x, float y, float w, float h, float r_tl, float r_tr, float r_br, float r_bl, const ofColor& c);
 	void strokeEllipse(float cx, float cy, float rx, float ry, const ofColor& c, float width=1);
 	void fillEllipse(float cx, float cy, float rx, float ry, const ofColor& c);
 	void strokeCircle(float cx, float cy, float r, const ofColor& c, float width=1);
@@ -214,8 +228,8 @@ public:
 	// returns font id that can be used later
 	Font* addFont(const string& name, const string& filename);
 	Font* getFont(const string& name);
-	void drawText(const string& fontName, float x, float y, const string& text, float fontSize);
-	void drawText(Font* font, float x, float y, const string& text, float fontSize);
+	float drawText(const string& fontName, float x, float y, const string& text, float fontSize);
+	float drawText(Font* font, float x, float y, const string& text, float fontSize);
 	void drawTextBox(const string& fontName, float x, float y, const string& text, float fontSize, float breakRowWidth, float lineHeight=-1);
 	void drawTextBox(Font* font, float x, float y, const string& text, float fontSize, float breakRowWidth, float lineHeight=-1);
 	float drawTextOnArc(const string& fontName, float cx, float cy, float radius, float startAng, int dir, float spacing, const string& text, float fontSize, bool justMeasure=false);	// returns the radial travel in degrees

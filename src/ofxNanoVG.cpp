@@ -241,6 +241,21 @@ void ofxNanoVG::fillRoundedRect(float x, float y, float w, float h, float r, con
 	fillPath();
 }
 
+void ofxNanoVG::strokeRoundedRect(float x, float y, float w, float h, float r_tl, float r_tr, float r_br, float r_bl, const ofColor& c, float width) {
+	beginPath();
+	setStrokeColor(c);
+	setStrokeWidth(width);
+	roundedRect(x, y, w, h, r_tl, r_tr, r_br, r_bl);
+	strokePath();
+}
+
+void ofxNanoVG::fillRoundedRect(float x, float y, float w, float h, float r_tl, float r_tr, float r_br, float r_bl, const ofColor& c) {
+	beginPath();
+	setFillColor(c);
+	roundedRect(x, y, w, h, r_tl, r_tr, r_br, r_bl);
+	fillPath();
+}
+
 void ofxNanoVG::strokeEllipse(float cx, float cy, float rx, float ry, const ofColor& c, float width) {
 	beginPath();
 	setStrokeColor(c);
@@ -356,29 +371,29 @@ ofxNanoVG::Font* ofxNanoVG::getFont(const string &name)
 	return NULL;
 }
 
-void ofxNanoVG::drawText(const string &fontName, float x, float y, const string &text, float fontSize)
+float ofxNanoVG::drawText(const string &fontName, float x, float y, const string &text, float fontSize)
 {
 	Font* font = getFont(fontName);
 	if (font == NULL) {
 		ofLogError("ofxNanoVG::drawText", "cannot find font: %s", fontName.c_str());
-		return;
+		return 0;
 	}
 
-	drawText(font, x, y, text, fontSize);
+	return drawText(font, x, y, text, fontSize);
 }
 
-void ofxNanoVG::drawText(ofxNanoVG::Font *font, float x, float y, const string &text, float fontSize)
+float ofxNanoVG::drawText(ofxNanoVG::Font *font, float x, float y, const string &text, float fontSize)
 {
 	if (font == NULL) {
 		ofLogError("ofxNanoVG::drawText", "font == NULL");
-		return;
+		return 0;
 	}
 
 	nvgFontFaceId(ctx, font->id);
 	nvgTextLetterSpacing(ctx, font->letterSpacing);
 	nvgFontSize(ctx, fontSize);
 
-	nvgText(ctx, x, y, text.c_str(), NULL);
+	return nvgText(ctx, x, y, text.c_str(), NULL);
 }
 
 void ofxNanoVG::drawTextBox(const string &fontName, float x, float y, const string &text, float fontSize, float breakRowWidth, float lineHeight)
