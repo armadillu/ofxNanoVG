@@ -151,7 +151,7 @@ void ofxNanoVG::followPolyline(const ofPolyline &line) {
 		return;
 	}
 
-	const vector<ofPoint>& verts = line.getVertices();
+	auto & verts = line.getVertices();
 	nvgMoveTo(ctx, verts[0].x, verts[0].y);
 	for (int i=1; i<verts.size(); i++) {
 		nvgLineTo(ctx, verts[i].x, verts[i].y);
