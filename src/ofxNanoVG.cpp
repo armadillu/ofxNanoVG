@@ -599,7 +599,7 @@ void ofxNanoVG::applyOFMatrix()
 	ofVec2f skew(ofMatrix(0, 1), ofMatrix(1, 0));
 
 	// handle OF style vFlipped inside FBO
-	if (ofGetCurrentRenderer()->getCurrentOrientationMatrix()(1, 1) == 1) {
+	if (ofGetCurrentRenderer()->getCurrentOrientationMatrix()[1][1] == 1) {
 		translate.y = ofGetViewportHeight() - translate.y;
 		scale.y *= -1;
 		skew.y *= -1;
